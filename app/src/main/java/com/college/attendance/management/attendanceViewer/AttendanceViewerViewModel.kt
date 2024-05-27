@@ -13,6 +13,7 @@ import java.time.Instant
 import java.time.YearMonth
 import java.time.ZoneId
 import java.time.ZoneOffset
+import java.util.TimeZone
 
 class AttendanceViewerViewModel : BaseViewModel<AttendanceViewerState>() {
     override val initialState: AttendanceViewerState =
@@ -20,12 +21,17 @@ class AttendanceViewerViewModel : BaseViewModel<AttendanceViewerState>() {
 
     override val uiFlow: MutableStateFlow<AttendanceViewerState> = MutableStateFlow(initialState)
 
+    private val loadedMonths = mutableSetOf<YearMonth>()
+
 
     fun loadAttendance(month: YearMonth) {
         val currentMonthTimeStamp =
-            month.atDay(1).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+            month.atDay(1).atStartOfDay().atZone(ZoneId.of("Asia/Kolkata")).toInstant().toEpochMilli()
         val nextMothTimeStamp =
-            month.nextMonth.atDay(1).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+            month.nextMonth.atDay(1).atStartOfDay().atZone(ZoneId.of("Asia/Kolkata")).toInstant().toEpochMilli()
+
+        if (loadedMonths.contains(month))
+            return
 
         Firebase.firestore
             .collection("attendance")
@@ -43,6 +49,7 @@ class AttendanceViewerViewModel : BaseViewModel<AttendanceViewerState>() {
                 uiFlow.value.presentList.addAll(
                     attendance
                 )
+                loadedMonths.add(month)
             }
     }
 }

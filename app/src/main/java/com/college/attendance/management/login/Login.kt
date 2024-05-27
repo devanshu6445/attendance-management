@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,6 +42,7 @@ import androidx.navigation.NavController
 import com.college.attendance.management.FullCircularProgressBar
 import com.college.attendance.management.R
 import com.college.attendance.management.SubjectList
+import com.college.attendance.management.findActivity
 
 @Composable
 fun Login(modifier: Modifier = Modifier, navController: NavController) {
@@ -71,6 +74,7 @@ fun LoginUI(modifier: Modifier = Modifier, onLogin: (String, String) -> Unit) {
         modifier = modifier
             .padding(32.dp),
     ) {
+        val context = LocalContext.current
         Image(
             imageVector = ImageVector.vectorResource(id = R.drawable.baseline_arrow_back_ios_new_24),
             contentDescription = null,
@@ -81,6 +85,7 @@ fun LoginUI(modifier: Modifier = Modifier, onLogin: (String, String) -> Unit) {
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(8.dp)
+                .clickable { context.findActivity()?.finish() }
         )
 
 
@@ -123,7 +128,7 @@ fun LoginUI(modifier: Modifier = Modifier, onLogin: (String, String) -> Unit) {
                     innerTextField()
                 }
             },
-            textStyle = LocalTextStyle.current
+            textStyle = LocalTextStyle.current,
         )
 
         var password by remember { mutableStateOf("") }
@@ -159,7 +164,8 @@ fun LoginUI(modifier: Modifier = Modifier, onLogin: (String, String) -> Unit) {
                     innerTextField()
                 }
             },
-            textStyle = LocalTextStyle.current
+            textStyle = LocalTextStyle.current,
+            visualTransformation = PasswordVisualTransformation()
         )
 
         Button(

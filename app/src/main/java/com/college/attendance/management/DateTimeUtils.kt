@@ -21,12 +21,12 @@ fun getTodayDate(): String {
     return df.format(c)
 }
 
-fun String.toUTCFormat(currentFmt: String, outputFmt: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): String {
+fun String.toISTFormat(currentFmt: String, outputFmt: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): String {
     return try {
         val parsedDate = SimpleDateFormat(currentFmt, Locale.getDefault()).parse(this)
         parsedDate?.let {
             val outputFormat = SimpleDateFormat(outputFmt, Locale.getDefault())
-            outputFormat.timeZone = TimeZone.getTimeZone("UTC")
+            outputFormat.timeZone = TimeZone.getTimeZone("Asia/Kolkata")
             outputFormat.format(it)
         } ?: ""
     } catch (e: ParseException) {
@@ -41,7 +41,7 @@ fun getIndianTimeZone(serverDate: String?): String {
     try {
         val simpleDateFormat =
             SimpleDateFormat(PW_APP_DATE_PATTERN, Locale.getDefault())
-        simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+        simpleDateFormat.timeZone = TimeZone.getTimeZone("Asia/Kolkata")
 
         val indianDateFormat =
             SimpleDateFormat(PW_APP_DATE_PATTERN, Locale.getDefault())

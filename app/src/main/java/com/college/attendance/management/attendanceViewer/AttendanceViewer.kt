@@ -1,6 +1,7 @@
 package com.college.attendance.management.attendanceViewer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.college.attendance.management.R
 import com.college.attendance.management.calendar.SimpleCalendarTitle
 import com.college.attendance.management.displayText
@@ -55,7 +57,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-fun AttendanceViewerUI(modifier: Modifier = Modifier, subject: Subject) {
+fun AttendanceViewerUI(modifier: Modifier = Modifier, subject: Subject, navController: NavController) {
     val today = remember { LocalDate.now() }
     val currentMonth = remember(today) { today.yearMonth }
     val startMonth = remember { currentMonth.minusMonths(500) }
@@ -87,7 +89,10 @@ fun AttendanceViewerUI(modifier: Modifier = Modifier, subject: Subject) {
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.baseline_arrow_back_ios_new_24),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.clickable {
+                    navController.popBackStack()
+                }
             )
             Text(
                 text = "Your Attendance for ${subject.name}",
@@ -120,7 +125,10 @@ fun AttendanceViewerUI(modifier: Modifier = Modifier, subject: Subject) {
                 },
                 goToNext = {
                     coroutineScope.launch {
-                        calendarState.animateScrollToMonth(calendarState.firstVisibleMonth.yearMonth.nextMonth)
+                        val nextMonth = calendarState.firstVisibleMonth.yearMonth.nextMonth
+
+                        viewModel.loadAttendance(nextMonth)
+                        calendarState.animateScrollToMonth(nextMonth)
                     }
                 },
             )

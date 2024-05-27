@@ -5,7 +5,7 @@ import com.college.attendance.management.PW_APP_DATE_PATTERN
 import com.college.attendance.management.getDateTimeInMs
 import com.college.attendance.management.getTodayDate
 import com.college.attendance.management.toObjectList
-import com.college.attendance.management.toUTCFormat
+import com.college.attendance.management.toISTFormat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.ktx.firestore
@@ -62,7 +62,7 @@ class AttendanceSubmissionViewModel @Inject constructor() :
             )
         }
 
-        val documentId = "${getTodayDate()}T00:00:01.000Z".toUTCFormat(PW_APP_DATE_PATTERN)
+        val documentId = "${getTodayDate()}T00:00:01.000Z".toISTFormat(PW_APP_DATE_PATTERN)
 
         Firebase.firestore
             .collection("attendance")

@@ -91,7 +91,8 @@ fun AttendanceNavHost(userDetailsDataStore: UserDetailsDataStore) {
         ) {
             AttendanceViewerUI(
                 modifier = Modifier.fillMaxSize(),
-                subject = JsonDecoder.decodeFromString(it.arguments?.getString("subject") ?: "")
+                subject = JsonDecoder.decodeFromString(it.arguments?.getString("subject") ?: ""),
+                navController = navController
             )
         }
     }

@@ -1,6 +1,10 @@
 package com.college.attendance.management
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.text.TextUtils
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -56,12 +60,6 @@ fun NavController.safeNavigate(
         navigate(targetDestination, builder)
 }
 
-/**
- * Returns the first visible month in a paged calendar **after** scrolling stops.
- *
- * @see [rememberFirstCompletelyVisibleMonth]
- * @see [rememberFirstMostVisibleMonth]
- */
 @Composable
 fun rememberFirstVisibleMonthAfterScroll(state: CalendarState): CalendarMonth {
     val visibleMonth = remember(state) { mutableStateOf(state.firstVisibleMonth) }
@@ -86,4 +84,10 @@ fun DayOfWeek.displayText(uppercase: Boolean = false): String {
     return getDisplayName(TextStyle.SHORT, Locale.ENGLISH).let { value ->
         if (uppercase) value.uppercase(Locale.ENGLISH) else value
     }
+}
+
+fun Context.findActivity(): Activity? = when (this) {
+    is ComponentActivity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }
