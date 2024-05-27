@@ -43,6 +43,7 @@ import com.college.attendance.management.FullCircularProgressBar
 import com.college.attendance.management.R
 import com.college.attendance.management.SubjectList
 import com.college.attendance.management.findActivity
+import com.college.attendance.management.safeNavigate
 
 @Composable
 fun Login(modifier: Modifier = Modifier, navController: NavController) {
@@ -63,7 +64,10 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
         }
 
         state.isLoggedIn -> {
-            navController.navigate(SubjectList)
+            navController.safeNavigate(
+                currentDestination = com.college.attendance.management.Login,
+                targetDestination = SubjectList
+            )
         }
     }
 }

@@ -31,6 +31,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -77,10 +78,11 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.core.persistence)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.coil.compose)
+    implementation(libs.kotlinx.serialization.json)
 
-    implementation("com.kizitonwose.calendar:compose:2.5.1")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation(libs.compose)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
 // Allow references to generated code

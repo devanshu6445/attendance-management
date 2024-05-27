@@ -9,6 +9,7 @@ data class SubjectListingState(
 
 @Serializable
 data class Subject(
+    val imageUrl: String? = null,
     val name: String,
     val code: String,
     val teacherId: String

@@ -2,6 +2,7 @@ package com.college.attendance.management.subjectListing
 
 import com.college.attendance.management.BaseViewModel
 import com.college.attendance.management.UserDetailsDataStore
+import com.college.attendance.management.UserRole
 import com.college.attendance.management.toObjectList
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -17,25 +18,55 @@ class SubjectListingViewModel @Inject constructor() : BaseViewModel<SubjectListi
 
     override val uiFlow: MutableStateFlow<SubjectListingState> = MutableStateFlow(initialState)
 
-    fun initState() {
+    suspend fun initState() {
+        val userDetails = userDetailsDataStore.value.firstOrNull()
         uiFlow.updateState {
             copy(
                 isLoading = true
             )
         }
 
-        Firebase.firestore.collection("subjects")
-            .get()
-            .addOnSuccessListener {
-                val subjects = it.toObjectList<Subject>()
+        when (userDetails?.role) {
+            UserRole.Student -> {
+                Firebase.firestore.collection("subjects")
+                    .whereIn("code", userDetails.enrolledIn ?: emptyList())
+                    .get()
+                    .addOnSuccessListener {
+                        val subjects = it.toObjectList<Subject>()
 
+                        uiFlow.updateState {
+                            copy(
+                                isLoading = false,
+                                subjects = subjects
+                            )
+                        }
+                    }
+            }
+
+            UserRole.Teacher -> {
+                Firebase.firestore.collection("subjects")
+                    .whereEqualTo("teacherId", userDetails.uid)
+                    .get()
+                    .addOnSuccessListener {
+                        val subjects = it.toObjectList<Subject>()
+
+                        uiFlow.updateState {
+                            copy(
+                                isLoading = false,
+                                subjects = subjects
+                            )
+                        }
+                    }
+            }
+
+            else -> {
                 uiFlow.updateState {
                     copy(
-                        isLoading = false,
-                        subjects = subjects
+                        isLoading = false
                     )
                 }
             }
+        }
     }
 
     suspend fun getCurrentUserRole() = userDetailsDataStore.value.firstOrNull()?.role

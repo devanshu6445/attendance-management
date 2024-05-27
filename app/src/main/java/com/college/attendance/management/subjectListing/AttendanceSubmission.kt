@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.college.attendance.management.FullCircularProgressBar
 import com.college.attendance.management.UserDetails
 import com.college.attendance.management.UserRole
 
@@ -46,6 +47,10 @@ fun AttendanceSubmission(modifier: Modifier = Modifier, subject: Subject) {
         subject = subject
     ) {
         viewModel.uploadAttendance(absentStudents = it, subjectCode = subject.code)
+    }
+
+    when {
+        state.isLoading -> FullCircularProgressBar()
     }
 }
 

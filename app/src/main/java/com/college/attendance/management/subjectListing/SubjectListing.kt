@@ -1,6 +1,5 @@
 package com.college.attendance.management.subjectListing
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,12 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.college.attendance.management.AttendanceViewer
+import coil.compose.AsyncImage
 import com.college.attendance.management.FullCircularProgressBar
 import com.college.attendance.management.R
 import com.college.attendance.management.SubjectList
@@ -128,8 +126,9 @@ fun SubjectListingUI(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground),
+                    AsyncImage(
+                        model = it.imageUrl,
+                        error = painterResource(id = R.drawable.ic_launcher_foreground),
                         contentDescription = null,
                         modifier = Modifier.size(50.dp)
                     )

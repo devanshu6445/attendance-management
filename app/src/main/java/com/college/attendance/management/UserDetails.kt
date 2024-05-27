@@ -16,7 +16,8 @@ class UserDetailsDataStore @Inject constructor() : AbstractDataStore<UserDetails
 data class UserDetails(
     val uid: String = "",
     val userName: String,
-    val role: UserRole
+    val role: UserRole,
+    val enrolledIn: List<String>? = null
 ) {
     companion object {
         fun default() = UserDetails("", "", UserRole.None)
