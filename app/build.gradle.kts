@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -30,6 +34,8 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -54,16 +60,30 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.core.persistence)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    implementation("com.kizitonwose.calendar:compose:2.5.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886567057744",
+    "project_id": "attendance-management-ap-2d21e",
+    "storage_bucket": "attendance-management-ap-2d21e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886567057744:android:e33bfec7397826fcab1455",
+        "android_client_info": {
+          "package_name": "com.college.attendance.management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdN_-aO_itHmYGv8PS4iAuosfpmGUO8ks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
