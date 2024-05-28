@@ -57,7 +57,11 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-fun AttendanceViewerUI(modifier: Modifier = Modifier, subject: Subject, navController: NavController) {
+fun AttendanceViewerUI(
+    modifier: Modifier = Modifier,
+    subject: Subject,
+    navController: NavController
+) {
     val today = remember { LocalDate.now() }
     val currentMonth = remember(today) { today.yearMonth }
     val startMonth = remember { currentMonth.minusMonths(500) }
@@ -148,6 +152,17 @@ fun AttendanceViewerUI(modifier: Modifier = Modifier, subject: Subject, navContr
                 monthHeader = {
                     MonthHeader(daysOfWeek = daysOfWeek)
                 },
+                monthFooter = { calendar ->
+                    val presentPercentage =
+                        state.presentList.filter { it.first.yearMonth == calendar.yearMonth }
+                            .count { record -> record.second } * 100 / calendar.yearMonth.month.maxLength()
+
+                    Text(
+                        text = "Your attendance in ${calendar.yearMonth.month.displayText()} is $presentPercentage%",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
             )
         }
     }
